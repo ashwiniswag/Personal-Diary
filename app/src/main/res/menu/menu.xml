@@ -2,22 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/btn"
-        app:showAsAction="always"
-        android:title="Hide"
-        android:icon="@drawable/ic_security_black_24dp"
-        />
+<!--    <item android:id="@+id/btn"-->
+<!--        app:showAsAction="always"-->
+<!--        android:title="Hide"-->
+<!--        android:icon="@drawable/ic_security_black_24dp"-->
+<!--        />-->
 
-    <item android:id="@+id/search"
-        app:actionViewClass="android.widget.SearchView"
-        android:icon="@drawable/ic_search_black_24dp"
-        android:title="Captain's Diary"
-        app:showAsAction="ifRoom"/>
+<!--    <item android:id="@+id/search"-->
+<!--        app:actionViewClass="android.widget.SearchView"-->
+<!--        android:icon="@drawable/ic_search_black_24dp"-->
+<!--        android:title="Captain's Diary"-->
+<!--        app:showAsAction="ifRoom"/>-->
 
-    <item android:id="@+id/darkmode"
-        android:title="Dark Mode"
-        app:showAsAction="never"/>
-
+<!--    <item android:id="@+id/darkmode"-->
+<!--        android:title="Dark Mode"-->
+<!--        app:showAsAction="never"/>-->
+    <item android:title="Help"/>
+    <item android:title="FAQs"/>
+    <item android:title="Developer"/>
     <item android:id="@+id/signout"
         android:title="Log Out"
         app:showAsAction="never"/>

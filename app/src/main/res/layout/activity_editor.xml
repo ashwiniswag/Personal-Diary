@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Editor">
+    tools:context=".Editor"
+    android:id="@+id/layout">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,16 +13,19 @@
         android:orientation="vertical">
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
+            android:background="@android:color/white"
+            android:textStyle="bold"
             android:id="@+id/Title"
             android:gravity="center"
             android:hint="Set Your Title Here..."
-            android:textSize="25sp"/>
+            android:textSize="30sp"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/edtor"
+        android:background="@android:color/white"
         android:inputType="textMultiLine"
         android:hint="Add Your Notes Here"
         android:gravity="top"/>

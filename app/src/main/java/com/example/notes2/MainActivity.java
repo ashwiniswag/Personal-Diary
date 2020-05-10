@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -39,6 +40,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -53,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
     List<String> names;
     GridAdapter arrayAdapter;
     List<Integer> image;
+    List<String> notes;
+    List<String> title;
+    List<String> nsize;
+    List<String> bcolor,tcolor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,25 +72,30 @@ public class MainActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         add=findViewById(R.id.addfilefolder);
-        file=findViewById(R.id.addfile);
-        folder=findViewById(R.id.addfolder);
+//        file=findViewById(R.id.addfile);
+//        folder=findViewById(R.id.addfolder);
         gridView=findViewById(R.id.grid);
 
         names=new ArrayList<>();
         image=new ArrayList<>();
+        notes=new ArrayList<>();
+        title=new ArrayList<>();
+        nsize=new ArrayList<>();
+        bcolor=new ArrayList<>();
+        tcolor=new ArrayList<>();
         arrayAdapter=new GridAdapter(this,names,image);
         gridView.setAdapter(arrayAdapter);
 
+//        add.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                findViewById(R.id.addfile).setVisibility(View.VISIBLE);
+//                findViewById(R.id.addfolder).setVisibility(View.VISIBLE);
+//
+//            }
+//        });
+
         add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                findViewById(R.id.addfile).setVisibility(View.VISIBLE);
-                findViewById(R.id.addfolder).setVisibility(View.VISIBLE);
-
-            }
-        });
-
-        file.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder alertdialog = new AlertDialog.Builder(MainActivity.this);
@@ -110,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent intent=new Intent(MainActivity.this,Editor.class);
                         intent.putExtra("Title",input.getText().toString());
+                        intent.putExtra("fname",input.getText().toString());
                         startActivity(intent);
                         String result = input.getText().toString();
                         names.add(result);
@@ -122,50 +134,68 @@ public class MainActivity extends AppCompatActivity {
                 });
                 alertdialog.show();
 
-                file.setVisibility(View.INVISIBLE);
-                folder.setVisibility(View.INVISIBLE);
+//                file.setVisibility(View.INVISIBLE);
+//                folder.setVisibility(View.INVISIBLE);
             }
         });
 
-        folder.setOnClickListener(new View.OnClickListener() {
+//        folder.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                AlertDialog.Builder alertdialog=new AlertDialog.Builder(MainActivity.this);
+//                alertdialog.setTitle("Create New Folder");
+//                alertdialog.setMessage("Enter Folder Name");
+//
+//
+//
+//                final EditText input=new EditText(MainActivity.this);
+//                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+//                        LinearLayout.LayoutParams.MATCH_PARENT,
+//                        LinearLayout.LayoutParams.MATCH_PARENT);
+//                input.setLayoutParams(lp);
+//                alertdialog.setView(input);
+//                alertdialog.setIcon(R.drawable.ic_create_new_folder);
+//                alertdialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        dialogInterface.cancel();
+//                    }
+//                });
+//                alertdialog.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        String result=input.getText().toString();
+//                        names.add(result);
+//                        image.add(R.drawable.folder);
+////                        arrayList.add(resullt);
+//
+//                        arrayAdapter.notifyDataSetChanged();
+//                    }
+//                });
+//                alertdialog.show();
+//                file.setVisibility(View.INVISIBLE);
+//                folder.setVisibility(View.INVISIBLE);
+//            }
+//        });
+        boolean verify=check();
+        if(verify){
+        disp();}
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-                AlertDialog.Builder alertdialog=new AlertDialog.Builder(MainActivity.this);
-                alertdialog.setTitle("Create New Folder");
-                alertdialog.setMessage("Enter Folder Name");
-
-
-
-                final EditText input=new EditText(MainActivity.this);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT);
-                input.setLayoutParams(lp);
-                alertdialog.setView(input);
-                alertdialog.setIcon(R.drawable.ic_create_new_folder);
-                alertdialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-                alertdialog.setPositiveButton("Create", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String result=input.getText().toString();
-                        names.add(result);
-                        image.add(R.drawable.folder);
-//                        arrayList.add(resullt);
-
-                        arrayAdapter.notifyDataSetChanged();
-                    }
-                });
-                alertdialog.show();
-                file.setVisibility(View.INVISIBLE);
-                folder.setVisibility(View.INVISIBLE);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DatabaseReference ref;
+                Intent intent=new Intent(MainActivity.this,Editor.class);
+//                String tlt=title
+                intent.putExtra("Title",title.get(position));
+                intent.putExtra("note",notes.get(position));
+                intent.putExtra("fname",names.get(position));
+                intent.putExtra("nsize",nsize.get(position));
+                intent.putExtra("bcolor",bcolor.get(position));
+                intent.putExtra("tcolor",tcolor.get(position));
+                startActivity(intent);
             }
         });
-
     }
 
     @Override
@@ -186,15 +216,18 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+//    @Override
+    protected boolean check() {
+//        super.onStart();
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             Intent intent=new Intent(MainActivity.this,LoginOptions.class);
             startActivity(intent);
+            return  false;
         }
         else{
-            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//            Toast.makeText(this, "Welcome :-)", Toast.LENGTH_SHORT).show();
+            return true;
         }
 
     }
@@ -211,29 +244,29 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
 
-            case R.id.btn:
-                b++;
-                if(b==5){
-                    //Intent intent=new Intent(MainActivity.this,Folder.class);
-                    b=0;
-//                    FingerprintManager fingerprintManager=(FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
-                    FingerprintManagerCompat fingerprintManagerCompat = FingerprintManagerCompat.from(MainActivity.this);
-//                    if(!fingerprintManager.isHardwareDetected()){
+//            case R.id.btn:
+//                b++;
+//                if(b==5){
+//                    //Intent intent=new Intent(MainActivity.this,Folder.class);
+//                    b=0;
+////                    FingerprintManager fingerprintManager=(FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
+//                    FingerprintManagerCompat fingerprintManagerCompat = FingerprintManagerCompat.from(MainActivity.this);
+////                    if(!fingerprintManager.isHardwareDetected()){
+////                        Toast.makeText(MainActivity.this,"Fingerprint Scanner Is not Present",Toast.LENGTH_SHORT).show();
+////                    }
+//                    if (!fingerprintManagerCompat.isHardwareDetected()) {
+//                        // Device doesn't support fingerprint authentication
 //                        Toast.makeText(MainActivity.this,"Fingerprint Scanner Is not Present",Toast.LENGTH_SHORT).show();
 //                    }
-                    if (!fingerprintManagerCompat.isHardwareDetected()) {
-                        // Device doesn't support fingerprint authentication
-                        Toast.makeText(MainActivity.this,"Fingerprint Scanner Is not Present",Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                    startActivity(new Intent(MainActivity.this,FingerprintAuth.class));
-                   // Toast.makeText(MainActivity.this,"Welcome To hidden Folder",Toast.LENGTH_SHORT).show();}
-                }}
-                return true;
-            case R.id.darkmode:
-                constraintLayout=findViewById(R.id.main);
-                constraintLayout.setBackgroundColor(getResources().getColor(R.color.black));
-                return true;
+//                    else{
+//                    startActivity(new Intent(MainActivity.this,FingerprintAuth.class));
+//                   // Toast.makeText(MainActivity.this,"Welcome To hidden Folder",Toast.LENGTH_SHORT).show();}
+//                }}
+//                return true;
+//            case R.id.darkmode:
+//                constraintLayout=findViewById(R.id.main);
+//                constraintLayout.setBackgroundColor(getResources().getColor(R.color.black));
+//                return true;
             case R.id.signout:
                 switch (item.getItemId()) {
                     // ...
@@ -250,28 +283,39 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    public void dispfiles(){
-//        names=new ArrayList<>();
-//        image=new ArrayList<>();
-//        arrayAdapter=new GridAdapter(this,names,image);
-//        gridView.setAdapter(arrayAdapter);
+    public void disp(){
+        DatabaseReference ref;
 //        FirebaseUser currentuser=FirebaseAuth.getInstance().getCurrentUser();
-//        final String userid=currentuser.getUid();
-//        DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("User").child(userid);//.child("note");
-//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                DataSnapshot file=dataSnapshot.child(userid);
-//                Iterable<DataSnapshot> files=file.getChildren();
-//                for (DataSnapshot contact : files){
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
+        String userid=FirebaseAuth.getInstance().getCurrentUser().getUid();
+        ref=FirebaseDatabase.getInstance().getReference().child("User").child(userid);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> items=dataSnapshot.getChildren().iterator();
+                while(items.hasNext()){
+                    DataSnapshot item=items.next();
+                    String fname=item.child("fname").getValue().toString();
+                    String note=item.child("note").getValue().toString();
+                    String Title=item.child("Title").getValue().toString();
+                    String Nsize=item.child("nsize").getValue().toString();
+                    String Bcolor=item.child("bcolor").getValue().toString();
+                    String Tcolor=item.child("tcolor").getValue().toString();
+                    if(fname != null){
+                        names.add(fname);
+                        notes.add(note);
+                        title.add(Title);
+                        nsize.add(Nsize);
+                        bcolor.add(Bcolor);
+                        tcolor.add(Tcolor);
+                    }
+                }
+                arrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(MainActivity.this,"Not Changed",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

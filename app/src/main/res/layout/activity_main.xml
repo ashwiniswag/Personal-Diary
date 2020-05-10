@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/grid"
-        android:numColumns="5"/>
+        android:numColumns="3"
+        android:padding="5dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -24,23 +25,23 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            android:src="@drawable/ic_notefile"
-            android:visibility="invisible"
-            android:layout_margin="5dp"/>
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/addfile"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@color/colorPrimaryDark"-->
+<!--            android:src="@drawable/ic_notefile"-->
+<!--            android:visibility="invisible"-->
+<!--            android:layout_margin="5dp"/>-->
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addfolder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            android:src="@drawable/ic_create_new_folder"
-            android:visibility="invisible"
-            android:layout_margin="5dp"/>
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/addfolder"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@color/colorPrimaryDark"-->
+<!--            android:src="@drawable/ic_create_new_folder"-->
+<!--            android:visibility="invisible"-->
+<!--            android:layout_margin="5dp"/>-->
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

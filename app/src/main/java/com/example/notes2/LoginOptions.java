@@ -83,6 +83,15 @@ public class LoginOptions extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+//            Intent intent=new Intent(LoginOptions.this,MainActivity.class);
+//            startActivity(intent);
+//        }
+//    }
+
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);

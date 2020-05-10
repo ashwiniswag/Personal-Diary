@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item android:id="@+id/find"
+        android:title="FInd"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_search_black_24dp"/>
+    <item android:id="@+id/theme"
+        android:title="Theme"
+        app:showAsAction="never">
+
+        <menu>
+            <item
+                android:id="@+id/yellow"
+                android:title="Yellow"/>
+            <item
+                android:id="@+id/green"
+                android:title="Green"/>
+            <item
+                android:id="@+id/blue"
+                android:title="Blue"/>
+            <item
+                android:id="@+id/red"
+                android:title="red"/>
+            <item android:id="@+id/defaul"
+                android:title="Default"/>
+        </menu>
+    </item>
+
+    <item android:id="@+id/fontsize"
+        android:title="FontSize">
+        <menu>
+            <item android:id="@+id/extrasmall"
+                android:title="XS" />
+            <item android:id="@+id/small"
+                android:title="S" />
+            <item android:id="@+id/medium"
+                android:title="M" />
+            <item android:id="@+id/large"
+                android:title="L" />
+            <item android:id="@+id/extralarge"
+                android:title="XL" />
+        </menu>
+
+    </item>
+
+    <item android:id="@+id/style"
+        android:title="Style">
+        <menu>
+            <item android:id="@+id/bold"
+                android:title="Bold"/>
+            <item android:id="@+id/itallic"
+                android:title="Itallic"/>
+            <item android:id="@+id/Underline"
+                android:title="Underline"/>
+
+        </menu>
+    </item>
+
+
+
+</menu>
