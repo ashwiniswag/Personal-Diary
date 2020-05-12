@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     List<String> title;
     List<String> nsize;
     List<String> bcolor,tcolor;
+    List<String> B,u,i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
         nsize=new ArrayList<>();
         bcolor=new ArrayList<>();
         tcolor=new ArrayList<>();
+        B=new ArrayList<>();
+        i=new ArrayList<>();
+        u=new ArrayList<>();
         arrayAdapter=new GridAdapter(this,names,image);
         gridView.setAdapter(arrayAdapter);
 
@@ -181,6 +185,43 @@ public class MainActivity extends AppCompatActivity {
         if(verify){
         disp();}
 
+        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                AlertDialog.Builder alertdialog = new AlertDialog.Builder(MainActivity.this);
+                alertdialog.setTitle("Do you want to delete this file?");
+
+                alertdialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                alertdialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    DatabaseReference ref;
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String userid=FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        ref =FirebaseDatabase.getInstance().getReference().child("User").child(userid).child(names.get(position));
+                        ref.setValue(null);
+                        names.remove(position);
+                        notes.remove(position);
+                        nsize.remove(position);
+                        bcolor.remove(position);
+                        tcolor.remove(position);
+                        B.remove(position);
+                        i.remove(position);
+                        u.remove(position);
+                        title.remove(position);
+                        arrayAdapter.notifyDataSetChanged();
+                    }
+                });
+                alertdialog.show();
+                return true;
+            }
+        });
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -193,9 +234,13 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("nsize",nsize.get(position));
                 intent.putExtra("bcolor",bcolor.get(position));
                 intent.putExtra("tcolor",tcolor.get(position));
+                intent.putExtra("bold",B.get(position));
+                intent.putExtra("itallic",i.get(position));
+                intent.putExtra("uline",u.get(position));
                 startActivity(intent);
             }
         });
+
     }
 
     @Override
@@ -300,6 +345,9 @@ public class MainActivity extends AppCompatActivity {
                     String Nsize=item.child("nsize").getValue().toString();
                     String Bcolor=item.child("bcolor").getValue().toString();
                     String Tcolor=item.child("tcolor").getValue().toString();
+                    String bold=item.child("b").getValue().toString();
+                    String itallic=item.child("i").getValue().toString();
+                    String uline=item.child("u").getValue().toString();
                     if(fname != null){
                         names.add(fname);
                         notes.add(note);
@@ -307,6 +355,9 @@ public class MainActivity extends AppCompatActivity {
                         nsize.add(Nsize);
                         bcolor.add(Bcolor);
                         tcolor.add(Tcolor);
+                        B.add(bold);
+                        i.add(itallic);
+                        u.add(uline);
                     }
                 }
                 arrayAdapter.notifyDataSetChanged();

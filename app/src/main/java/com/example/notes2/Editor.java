@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Locale;
 import java.util.StringTokenizer;
 
 public class Editor extends AppCompatActivity {
@@ -39,11 +42,16 @@ public class Editor extends AppCompatActivity {
     String nsize;
     String bcolor;
     String tcolor,otext,replace;
-
+    TextToSpeech textToSpeech;
+//    String b,i,u;
+    int b,u,i;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
+        i=0;
+        b=0;
+        u=0;
         nsize="20";
         bcolor=String.valueOf(Color.WHITE);
         tcolor=String.valueOf(Color.BLACK);
@@ -53,6 +61,12 @@ public class Editor extends AppCompatActivity {
 //        title.setTextSize(30);
         editor=findViewById(R.id.edtor);
         title.setText(a.getString("Title"));
+        if(a.getString("bold")!=null){
+            b=Integer.parseInt(a.getString("bold"));
+            i=Integer.parseInt(a.getString("itallic"));
+            u=Integer.parseInt(a.getString("uline"));
+            System.out.println("Mein kaam kar ragha hu "+ b + " " + i +" "+u);
+        }
         if(a.getString("nsize")!=null)
         nsize=a.getString("nsize");
         if(nsize!=null)
@@ -71,6 +85,9 @@ public class Editor extends AppCompatActivity {
             editor.setTextColor(Integer.parseInt(tcolor));
             title.setTextColor(Integer.parseInt(tcolor));
         }
+
+        style(b,i,u);
+
         save=findViewById(R.id.save);
         final String fname=a.getString("fname");
         final FirebaseAuth mAuth=FirebaseAuth.getInstance();
@@ -82,9 +99,30 @@ public class Editor extends AppCompatActivity {
                 ref=database.getReference("User").child(userid).child(a.getString("fname"));//.child("note");
                 String Title=title.getText().toString();
                 String note=editor.getText().toString();
-                Content content=new Content(Title,note,fname,nsize,bcolor,tcolor);
+                Content content=new Content(Title,note,fname,nsize,bcolor,tcolor,String.valueOf(b),String.valueOf(i),String.valueOf(u));
                 ref.setValue(content);
                 startActivity(new Intent(Editor.this,MainActivity.class));
+            }
+        });
+
+        textToSpeech=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    int ttsLang = textToSpeech.setLanguage(Locale.ENGLISH);
+
+                    if (ttsLang == TextToSpeech.LANG_MISSING_DATA
+                            || ttsLang == TextToSpeech.LANG_NOT_SUPPORTED) {
+//                        Log.e("TTS", "The Language is not supported!");
+                    } else {
+//                        Log.i("TTS", "Language Supported.");
+//                                Toast.makeText(Editor.this,"LAnguage Support",Toast.LENGTH_SHORT).show();
+                    }
+//                    Log.i("TTS", "Initialization success.");
+//                            Toast.makeText(Editor.this,"Initialization success.",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "TTS Initialization failed!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -94,6 +132,15 @@ public class Editor extends AppCompatActivity {
         MenuInflater inflater=getMenuInflater();
         inflater.inflate(R.menu.editor_option,menu);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
     }
 
     @Override
@@ -149,8 +196,8 @@ public class Editor extends AppCompatActivity {
                 nsize="15";
                 return true;
             case R.id.medium:
-                note.setTextSize(20);
-                nsize="20";
+                note.setTextSize(25);
+                nsize="25";
                 return true;
             case R.id.large:
                 note.setTextSize(30);
@@ -170,16 +217,36 @@ public class Editor extends AppCompatActivity {
                 tcolor=String.valueOf(getResources().getColor(R.color.black));
                 return true;
             case R.id.bold:
-                replace="<b>"+ otext+"</b>";
-                editor.setText(Html.fromHtml(replace));
+                b=1;
+                style(b,i,u);
+//                replace="<b>"+ otext+"</b>";
+//                editor.setText(Html.fromHtml(replace));
                 return true;
             case R.id.itallic:
-                replace="<i>"+ otext+"</i>";
-                editor.setText(Html.fromHtml(replace));
+                i=1;
+                style(b,i,u);
+//                replace="<i>"+ otext+"</i>";
+//                editor.setText(Html.fromHtml(replace));
                 return true;
             case R.id.Underline:
-                replace="<u>"+ otext+"</u>";
-                editor.setText(Html.fromHtml(replace));
+                u=1;
+                style(b,i,u);
+//                replace="<u>"+ otext+"</u>";
+//                editor.setText(Html.fromHtml(replace));
+                return true;
+            case R.id.normal:
+                b=0;
+                i=0;
+                u=0;
+                otext=editor.getText().toString();
+                editor.setText(otext);
+                return true;
+            case R.id.read:
+                String data=editor.getText().toString();
+                int speechstatus=textToSpeech.speak(data,TextToSpeech.QUEUE_FLUSH,null);
+                if (speechstatus == TextToSpeech.ERROR) {
+                    Toast.makeText(Editor.this,"Error",Toast.LENGTH_SHORT).show();
+                }
                 return true;
             case R.id.find:
                 AlertDialog.Builder alertdialog = new AlertDialog.Builder(Editor.this);
@@ -216,5 +283,28 @@ public class Editor extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void style(int bo,int it,int ul){
+        System.out.println("Chal toh mein bhi raha hu "+bo+ " "+it+ " "+ul);
+        String text=editor.getText().toString();
+
+        String pre = "",post = "";
+        if(bo==1){
+            pre=pre + "<b>";
+            post=post+ "</b>";
+        }
+        if(it==1){
+            pre=pre + "<i>";
+            post="</i>" + post;
+        }
+        if(ul==1){
+            pre=pre +"<u>";
+            post="</u>" + post;
+        }
+        System.out.println(text + " " + pre+" "+ post);
+        String replace=pre + text + post;
+        System.out.println(replace);
+        editor.setText(Html.fromHtml(replace));
     }
 }

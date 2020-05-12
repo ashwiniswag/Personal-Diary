@@ -2,7 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
+    <item android:id="@+id/read"
+        android:title="Read"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_volume_up_black_24dp"/>
     <item android:id="@+id/find"
         android:title="FInd"
         app:showAsAction="always"
@@ -55,6 +58,8 @@
                 android:title="Itallic"/>
             <item android:id="@+id/Underline"
                 android:title="Underline"/>
+            <item android:id="@+id/normal"
+                android:title="Default"/>
 
         </menu>
     </item>
