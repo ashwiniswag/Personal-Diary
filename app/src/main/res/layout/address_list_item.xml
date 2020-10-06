@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/AddressIcon"
+            android:layout_width="41dp"
+            android:layout_height="67dp"
+            android:layout_margin="4dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_home_black_24dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:id="@+id/Linearlayoutaddress"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/AddressIcon"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/address_textview_title"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                tools:text="HOME" />
+
+            <TextView
+                android:id="@+id/address_textview_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                tools:text="Uday srinu" />
+
+            <TextView
+                android:id="@+id/address_textview_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#807C7C"
+                tools:text="XYZ building,ABC colony,lightcity,India" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/address_delete_button"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_cancel_black_24dp" />
+
+            <Button
+                android:id="@+id/address_edit_button"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_edit_black_24dp"
+                android:textColor="#F4BB0A" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>
