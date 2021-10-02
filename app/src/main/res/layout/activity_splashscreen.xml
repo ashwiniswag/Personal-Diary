@@ -25,7 +25,7 @@
         android:text="My Diary"
         android:textAlignment="center"
         android:textColor="#2196F3"
-        android:textSize="60dp"
+        android:textSize="65dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
