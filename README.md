@@ -1,5 +1,5 @@
 # Personal-Diary
-It is an android based project. It is very useful for anyone who wants to keep a record of day to day happening in his life.
+It is an Android-based project. It is very useful for anyone who wants to keep a record of day to day happening in his life.
 
 # Working
 - On installing the app the user can make an account using his gmail or facebook account. The user can also use the app using guest account.
@@ -28,3 +28,6 @@ It is an android based project. It is very useful for anyone who wants to keep a
  - Create a website to access the content without using the app.
  - Add voice notes.
  - Enable group diary writies.
+ 
+# Tech Stack
+<img src="https://www.vectorlogo.zone/logos/android/android-ar21.svg" alt="Android" width="100" height="90"/><img src="https://www.vectorlogo.zone/logos/java/java-ar21.svg" alt="Java" width="100" height="90"/> </a><img src="https://www.vectorlogo.zone/logos/firebase/firebase-icon.svg" alt="Firebase" width="90" height="90"/><img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-ar21.svg" alt="Git" width="120" height="90"/>
